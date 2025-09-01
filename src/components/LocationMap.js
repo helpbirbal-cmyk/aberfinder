@@ -56,7 +56,7 @@ export default function LocationMap({ users, currentUser }) {
   }
 
   return (
-    <div className="h-96 w-full rounded-lg overflow-hidden border shadow-sm">
+    <div className="map-container w-full rounded-lg overflow-hidden border shadow-sm">
       <MapContainer
         center={center}
         zoom={13}
