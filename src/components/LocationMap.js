@@ -33,7 +33,7 @@ export default function LocationMap({ users, currentUser }) {
 
     // Import Leaflet CSS and fix icons
     if (typeof window !== 'undefined') {
-      import('leaflet/dist/leaflet.css')
+    //  import('leaflet/dist/leaflet.css')
 
       // Fix for default markers in Next.js
       import('leaflet').then((L) => {
@@ -56,44 +56,43 @@ export default function LocationMap({ users, currentUser }) {
   }
 
   return (
-    <div className="map-container w-full rounded-lg overflow-hidden border shadow-sm">
-      <MapContainer
-        center={center}
-        zoom={13}
-        style={{ height: '100%', width: '100%' }}
-        scrollWheelZoom={true}
-      >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        />
+  <MapContainer
+    center={center}
+    zoom={13}
+    style={{ height: '500px', width: '100%' }} // Use an explicit height
+    scrollWheelZoom={true}
+  >
+    <TileLayer
+      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    />
 
-        {users.map((user) => (
-          user.latitude && user.longitude && (
-            <Marker
-              key={user.id}
-              position={[user.latitude, user.longitude]}
-            >
-              <Popup>
-                <div className="text-sm">
-                  <div className="font-semibold text-base">{user.name}</div>
-                  <div className="text-gray-600 mt-1">
-                    {user.id === currentUser?.id ? 'Your location' : 'Group member'}
-                  </div>
-                  {user.accuracy && (
-                    <div className="text-xs text-gray-500 mt-1">
-                      Accuracy: ±{Math.round(user.accuracy)}m
-                    </div>
-                  )}
-                  <div className="text-xs text-gray-500 mt-1">
-                    Updated: {new Date(user.timestamp).toLocaleTimeString()}
-                  </div>
+    {users.map((user) => (
+      user.latitude && user.longitude && (
+        <Marker
+          key={user.id}
+          position={[user.latitude, user.longitude]}
+        >
+          <Popup>
+            <div className="text-sm">
+              <div className="font-semibold text-base">{user.name}</div>
+              <div className="text-gray-600 mt-1">
+                {user.id === currentUser?.id ? 'Your location' : 'Group member'}
+              </div>
+              {user.accuracy && (
+                <div className="text-xs text-gray-500 mt-1">
+                  Accuracy: ±{Math.round(user.accuracy)}m
                 </div>
-              </Popup>
-            </Marker>
-          )
-        ))}
-      </MapContainer>
-    </div>
-  )
+              )}
+              <div className="text-xs text-gray-500 mt-1">
+                Updated: {new Date(user.timestamp).toLocaleTimeString()}
+              </div>
+            </div>
+          </Popup>
+        </Marker>
+      )
+    ))}
+  </MapContainer>
+)
+
 }
